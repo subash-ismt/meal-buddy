@@ -8,6 +8,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This is the RegistrationActivity class, which handles the registration process.
+ * It allows users to enter their email, password, and confirm their password.
+ *
+ * @author subashtharu
+ */
 public class RegistrationActivity extends AppCompatActivity {
 
     private EditText emailInput;
