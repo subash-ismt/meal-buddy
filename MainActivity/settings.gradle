@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "MainActivity"
+rootProject.name = "meal-buddy-app"
 include ':app'
