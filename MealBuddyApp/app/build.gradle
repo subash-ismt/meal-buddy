@@ -29,13 +29,13 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
-        viewBinding true
+        viewBinding true  // to enable binding class (meaning UI xml to represent to the corresponding java class)
     }
 }
 
 dependencies {
     implementation libs.appcompat
-    implementation libs.material
+    implementation libs.material //material design
     implementation libs.constraintlayout
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
