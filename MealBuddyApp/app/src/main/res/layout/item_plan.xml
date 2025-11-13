@@ -7,36 +7,55 @@
     card:cardElevation="2dp"
     android:layout_marginBottom="8dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="12dp">
 
-        <TextView
-            android:id="@+id/textPlanName"
+        <LinearLayout
+            android:id="@+id/plan_text_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="16sp" />
+            android:orientation="vertical"
+            android:layout_toStartOf="@+id/button_delete_plan"
+            android:layout_toLeftOf="@+id/button_delete_plan">
 
-        <TextView
-            android:id="@+id/textPlanInstructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textSize="14sp"
-            android:maxLines="3"
-            android:ellipsize="end" />
+            <TextView
+                android:id="@+id/textPlanName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/textPlanDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textSize="12sp"
-            android:textColor="#666" />
+            <TextView
+                android:id="@+id/textPlanInstructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:maxLines="3"
+                android:ellipsize="end" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textPlanDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textSize="12sp"
+                android:textColor="#666" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/button_delete_plan"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="Delete plan"
+            android:src="@android:drawable/ic_menu_delete" />
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

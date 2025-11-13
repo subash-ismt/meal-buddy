@@ -14,6 +14,10 @@ import com.ismt.foodbuddy.model.Recipe;
 
 import java.util.List;
 
+/**
+ * Adapter for showing recipe list in RecipeListActivity.
+ * Exposes an OnAddClickListener to let callers handle "Add to plan" actions.
+ */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
     public interface OnAddClickListener {

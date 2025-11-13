@@ -12,9 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ismt.foodbuddy.MainActivity;
 import com.ismt.foodbuddy.R;
 import com.ismt.foodbuddy.dao.DatabaseHelper;
-import com.ismt.foodbuddy.model.Register;
 import com.ismt.foodbuddy.util.InputDataValidator;
 
+/**
+ * RegistrationActivity allows a user to register with email and password.
+ * Data is validated and stored into SQLite using DatabaseHelper.
+ * Note: Passwords are stored in plain text in this demo DB (not secure for production).
+ */
 public class RegistrationActivity extends AppCompatActivity {
 
     private EditText emailInput;
@@ -28,6 +32,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        // Initialize DB helper and UI references
         dbHelper = new DatabaseHelper(this);
 
         emailInput = findViewById(R.id.email_input);
@@ -43,6 +48,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString();
                 String confirmPassword = confirmPasswordInput.getText().toString();
 
+                // Basic validation with user-friendly messages
                 if (email.isEmpty()) {
                     Toast.makeText(RegistrationActivity.this, "Enter email", Toast.LENGTH_SHORT).show();
                     return;
@@ -68,22 +74,22 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
-
-
+                // Check duplicate email
                 if (dbHelper.isEmailExists(email)) {
                     Toast.makeText(RegistrationActivity.this, "Email already registered", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                // Persist the user in SQLite
                 boolean inserted = dbHelper.addUser(email, password);
                 if (inserted) {
                     Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-                    // clear fields or finish
+                    // clear fields
                     emailInput.setText("");
                     passwordInput.setText("");
                     confirmPasswordInput.setText("");
 
-                    //navigate to the login screen
+                    // navigate to the login screen (MainActivity)
                     Intent loginIntent = new Intent(RegistrationActivity.this, MainActivity.class);
                     startActivity(loginIntent);
                 } else {

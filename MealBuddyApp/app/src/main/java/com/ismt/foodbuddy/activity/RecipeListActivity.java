@@ -21,6 +21,11 @@ import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+/**
+ * Activity that displays a list of recipes and allows adding them to the user's plan.
+ * - Uses a RecyclerView with RecipeAdapter
+ * - Persists planned recipes to SQLite via DatabaseHelper
+ */
 public class RecipeListActivity extends AppCompatActivity {
 
     private ActivityRecipeListActivyBinding binding;
@@ -35,6 +40,7 @@ public class RecipeListActivity extends AppCompatActivity {
         binding = ActivityRecipeListActivyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //this method sets the toolbar as the app bar for the activity
         setSupportActionBar(binding.toolbar);
 
         dbHelper = new DatabaseHelper(this);
@@ -68,10 +74,21 @@ public class RecipeListActivity extends AppCompatActivity {
         adapter = new RecipeAdapter(recipes);
         adapter.setOnAddClickListener((recipe, position) -> {
             View root = binding.getRoot();
-            Snackbar.make(root, "Added to plan: " + recipe.getName(), Snackbar.LENGTH_SHORT).show();
-            // persist plan entry
+            // Prevent duplicate plan entries by recipe name
+            if (dbHelper != null && dbHelper.isPlanExists(recipe.getName())) {
+                Snackbar.make(root, "Recipe already added to your plan", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+
+            boolean saved = false;
             if (dbHelper != null) {
-                dbHelper.addPlan(recipe.getName(), recipe.getInstructions());
+                saved = dbHelper.addPlan(recipe.getName(), recipe.getInstructions());
+            }
+
+            if (saved) {
+                Snackbar.make(root, "Added to plan: " + recipe.getName(), Snackbar.LENGTH_SHORT).show();
+            } else {
+                Snackbar.make(root, "Failed to add to plan", Snackbar.LENGTH_SHORT).show();
             }
         });
 

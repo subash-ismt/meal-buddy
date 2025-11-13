@@ -12,17 +12,28 @@ import com.ismt.foodbuddy.model.Plan;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Simple SQLite helper for the app.
+ * Contains two tables:
+ * - users: stores registered user credentials (email, password)
+ * - plans: stores recipe plans saved by the user (name, instructions, timestamp)
+ *
+ * Note: This is a minimal implementation for demo/learning purposes. Passwords are
+ * stored in plain text here which is NOT secure for a production app. Prefer using
+ * a secure credential storage mechanism and hashing in real applications.
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "foodbuddy.db";
     private static final int DB_VERSION = 2;
 
+    // Users table
     public static final String TABLE_USERS = "users";
     public static final String COL_ID = "id";
     public static final String COL_EMAIL = "email";
     public static final String COL_PASSWORD = "password";
 
-    // plans table
+    // Plans table
     public static final String TABLE_PLANS = "plans";
     public static final String COL_PLAN_ID = "id";
     public static final String COL_RECIPE_NAME = "recipe_name";
@@ -35,6 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Create users table
         String sqlUsers = "CREATE TABLE " + TABLE_USERS + " (" +
                 COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_EMAIL + " TEXT UNIQUE, " +
@@ -42,6 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ")";
         db.execSQL(sqlUsers);
 
+        // Create plans table
         String sqlPlans = "CREATE TABLE IF NOT EXISTS " + TABLE_PLANS + " (" +
                 COL_PLAN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COL_RECIPE_NAME + " TEXT, " +
@@ -53,14 +66,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Simple drop/create for now
+        // Simple upgrade policy: drop and recreate (data loss on upgrade)
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLANS);
         onCreate(db);
     }
 
+    /**
+     * Add a new user to the users table.
+     * @return true if insert succeeded, false otherwise
+     */
     public boolean addUser(String email, String password) {
-        SQLiteDatabase db = this.getWritableDatabase(); //this will insert data into database before that onCreate method will be called.
+        SQLiteDatabase db = this.getWritableDatabase(); // Ensure writable DB
         ContentValues values = new ContentValues();
         values.put(COL_EMAIL, email);
         values.put(COL_PASSWORD, password);
@@ -69,6 +86,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return id != -1;
     }
 
+    /**
+     * Check if an email is already registered.
+     */
     public boolean isEmailExists(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USERS, new String[]{COL_ID},
@@ -80,7 +100,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Add a planned recipe
+    /**
+     * Add a planned recipe to the plans table.
+     * @return true when insertion succeeds
+     */
     public boolean addPlan(String recipeName, String instructions) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -100,8 +123,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected > 0;
     }
 
+    /**
+     * Check if a plan with the given recipe name already exists. Useful to avoid duplicates.
+     */
+    public boolean isPlanExists(String recipeName) {
+        if (recipeName == null) return false;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_PLANS, new String[]{COL_PLAN_ID},
+                COL_RECIPE_NAME + "=?", new String[]{recipeName},
+                null, null, null);
+        boolean exists = (cursor != null && cursor.getCount() > 0);
+        if (cursor != null) cursor.close();
+        db.close();
+        return exists;
+    }
 
-    // Get all planned recipes
+
+    /**
+     * Get all planned recipes ordered by created timestamp descending (newest first).
+     */
     public List<Plan> getAllPlans() {
         List<Plan> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
