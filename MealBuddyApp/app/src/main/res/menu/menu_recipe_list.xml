@@ -5,5 +5,10 @@
         android:title="@string/profile_title"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:showAsAction="always" />
-</menu>
 
+    <item
+        android:id="@+id/action_logout"
+        android:title="Logout"
+        android:icon="@android:drawable/ic_lock_power_off"
+        android:showAsAction="never" />
+</menu>

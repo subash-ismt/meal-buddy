@@ -1,6 +1,8 @@
 package com.ismt.foodbuddy.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ismt.foodbuddy.MainActivity;
 import com.ismt.foodbuddy.R;
 import com.ismt.foodbuddy.adapter.RecipeAdapter;
 import com.ismt.foodbuddy.dao.DatabaseHelper;
@@ -32,6 +35,7 @@ public class RecipeListActivity extends AppCompatActivity {
     private RecipeAdapter adapter;
     private final List<Recipe> recipes = new ArrayList<>();
     private DatabaseHelper dbHelper;
+    private boolean isAdmin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +49,37 @@ public class RecipeListActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-        setupRecycler();
-        loadSampleData();
+        // read admin flag passed from login
+        Intent i = getIntent();
+        if (i != null) {
+            isAdmin = i.getBooleanExtra("is_admin", false);
+        }
 
-        binding.fab.setOnClickListener(view ->
-                Snackbar.make(view, "Add new recipe - implement add flow", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show()
-        );
+        // if not passed via intent, read from shared prefs
+        if (!isAdmin) {
+            SharedPreferences prefs = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE);
+            isAdmin = prefs.getBoolean(MainActivity.KEY_IS_ADMIN, false);
+        }
+
+        setupRecycler();
+        loadDataFromDb();
+
+        // show FAB only to admins
+        if (binding.fab != null) {
+            binding.fab.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+        }
+
+        binding.fab.setOnClickListener(view -> {
+            // open admin AddRecipeActivity
+            startActivity(new Intent(RecipeListActivity.this, AddRecipeActivity.class));
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // reload recipes in case admin added new one
+        loadDataFromDb();
     }
 
     @Override
@@ -63,8 +90,23 @@ public class RecipeListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_profile) {
+        int id = item.getItemId();
+        if (id == R.id.action_profile) {
             startActivity(new Intent(this, ProfileActivity.class));
+            return true;
+        } else if (id == R.id.action_logout) {
+            // clear saved session
+            SharedPreferences prefs = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove(MainActivity.KEY_EMAIL);
+            editor.remove(MainActivity.KEY_IS_ADMIN);
+            editor.apply();
+
+            // navigate back to login
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -96,11 +138,11 @@ public class RecipeListActivity extends AppCompatActivity {
         binding.recyclerViewRecipes.setAdapter(adapter);
     }
 
-    private void loadSampleData() {
-        recipes.add(new Recipe("Spicy Tomato Pasta", "Boil pasta. Sauté garlic and tomatoes. Mix with chili flakes and cheese."));
-        recipes.add(new Recipe("Grilled Chicken Salad", "Marinate chicken, grill, slice. Toss with greens, dressing and nuts."));
-        recipes.add(new Recipe("Vegetable Stir Fry", "Chop veggies, stir-fry with soy sauce and sesame oil. Serve with rice."));
-        // notify adapter
+    private void loadDataFromDb() {
+        recipes.clear();
+        if (dbHelper != null) {
+            recipes.addAll(dbHelper.getAllRecipes());
+        }
         if (adapter != null) adapter.notifyDataSetChanged();
     }
 

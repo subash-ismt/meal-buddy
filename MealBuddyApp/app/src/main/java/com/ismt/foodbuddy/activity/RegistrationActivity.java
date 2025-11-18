@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ismt.foodbuddy.MainActivity;
 import com.ismt.foodbuddy.R;
 import com.ismt.foodbuddy.dao.DatabaseHelper;
+import com.ismt.foodbuddy.dao.MyDBHelper;
 import com.ismt.foodbuddy.util.InputDataValidator;
 
 /**
@@ -25,6 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText passwordInput;
     private EditText confirmPasswordInput;
     private Button registerButton;
+    private CheckBox registerAdminCheckbox;
     private DatabaseHelper dbHelper;
 
     @Override
@@ -32,13 +35,13 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        // Initialize DB helper and UI references
         dbHelper = new DatabaseHelper(this);
 
         emailInput = findViewById(R.id.email_input);
         passwordInput = findViewById(R.id.password_input);
         confirmPasswordInput = findViewById(R.id.confirm_password_input);
         registerButton = findViewById(R.id.register_button);
+        registerAdminCheckbox = findViewById(R.id.register_admin_checkbox);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,8 +83,10 @@ public class RegistrationActivity extends AppCompatActivity {
                     return;
                 }
 
+                boolean isAdmin = registerAdminCheckbox != null && registerAdminCheckbox.isChecked();
+
                 // Persist the user in SQLite
-                boolean inserted = dbHelper.addUser(email, password);
+                boolean inserted = dbHelper.addUser(email, password, isAdmin);
                 if (inserted) {
                     Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
                     // clear fields

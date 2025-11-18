@@ -70,6 +70,16 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Admin creation checkbox (visible for demo/testing) -->
+    <CheckBox
+        android:id="@+id/register_admin_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create as admin"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/confirm_password_layout"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/register_button"
         android:layout_width="0dp"
@@ -78,6 +88,6 @@
         android:text="Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirm_password_layout" />
+        app:layout_constraintTop_toBottomOf="@id/register_admin_checkbox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

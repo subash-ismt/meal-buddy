@@ -112,4 +112,5 @@ public class ProfileActivity extends AppCompatActivity {
         super.onDestroy();
         binding = null;
     }
+
 }

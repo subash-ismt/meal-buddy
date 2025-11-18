@@ -46,7 +46,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(@NonNull RecipeAdapter.ViewHolder holder, int position) {
         Recipe r = items.get(position);
         holder.name.setText(r.getName());
-        holder.instructions.setText(r.getInstructions());
+        String ins = r.getInstructions();
+        String ing = r.getIngredients();
+        holder.instructions.setText(ins != null ? ins : "");
+        holder.ingredients.setText(ing != null ? "Ingredients: " + ing : "");
         holder.addButton.setOnClickListener(v -> {
             if (addClickListener != null) addClickListener.onAddClicked(r, holder.getAdapterPosition());
         });
@@ -60,12 +63,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView instructions;
+        TextView ingredients;
         Button addButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textRecipeName);
             instructions = itemView.findViewById(R.id.textRecipeInstructions);
+            ingredients = itemView.findViewById(R.id.textRecipeIngredientsList);
             addButton = itemView.findViewById(R.id.buttonAddPlan);
         }
     }
