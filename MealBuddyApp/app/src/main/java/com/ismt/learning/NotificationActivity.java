@@ -28,6 +28,7 @@ public class NotificationActivity extends AppCompatActivity {
 
         Button notificationBtn = findViewById(R.id.show_notification_button);
 
+        //when notificaton button is click send notification
         notificationBtn.setOnClickListener(v -> {
 
             System.out.println("Notification button clicked");
