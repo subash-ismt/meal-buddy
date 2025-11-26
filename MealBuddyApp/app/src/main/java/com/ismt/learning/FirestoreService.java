@@ -84,7 +84,7 @@ public class FirestoreService {
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
                         String docId = task.getResult().getDocuments().get(0).getId();
                         db.collection(USERS_COLLECTION).document(docId)
-                                .update(updates)
+                                .update(updates) //this method is used to update the user details
                                 .addOnSuccessListener(aVoid -> Log.d(TAG, "User successfully updated!"))
                                 .addOnFailureListener(e -> Log.w(TAG, "Error updating user", e));
                     } else {
@@ -101,7 +101,7 @@ public class FirestoreService {
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
                         String docId = task.getResult().getDocuments().get(0).getId();
                         db.collection(USERS_COLLECTION).document(docId)
-                                .delete()
+                                .delete() //this method is used to delete the user details
                                 .addOnSuccessListener(aVoid -> Log.d(TAG, "User successfully deleted!"))
                                 .addOnFailureListener(e -> Log.w(TAG, "Error deleting user", e));
                     } else {
