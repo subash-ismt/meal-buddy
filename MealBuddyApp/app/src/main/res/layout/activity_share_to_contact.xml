@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ingredients Checklist"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewChecklist"
+        android:layout_width="wrap_content"
+        android:layout_height="313dp"
+        tools:itemCount="5"
+        tools:listitem="@layout/recycler_view_item" />
+
+    <Button
+        android:id="@+id/btnShareSms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@android:drawable/ic_menu_send"
+        android:drawablePadding="10dp"
+        android:text="Share via SMS" />
+
+    <Button
+        android:id="@+id/btnGeotag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Geotag Location" />
+
+</LinearLayout>

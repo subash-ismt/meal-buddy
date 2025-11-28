@@ -28,4 +28,20 @@ public class Plan {
     public long getCreatedAt() {
         return createdAt;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setRecipeName(String recipeName) {
+        this.recipeName = recipeName;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
 }

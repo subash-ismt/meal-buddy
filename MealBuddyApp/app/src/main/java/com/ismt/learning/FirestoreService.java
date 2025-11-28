@@ -8,7 +8,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.ismt.foodbuddy.model.Recipe;
+import com.ismt.foodbuddy.model.User;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FirestoreService {
@@ -23,8 +28,13 @@ public class FirestoreService {
     }
 
     public void registerUser(String email, String password, boolean isAdmin, final RegistrationCallback callback) {
+
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setAdmin(isAdmin);
         db.collection(USERS_COLLECTION)
-                .whereEqualTo("email", email)
+                .whereEqualTo("email", email)//condition to check if email already exists
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -35,10 +45,12 @@ public class FirestoreService {
                                     callback.onRegistrationFailure("Email already registered");
                                 }
                             } else {
-                                Map<String, Object> user = new HashMap<>();
-                                user.put("email", email);
-                                user.put("password", password); // WARNING: Insecure
-                                user.put("isAdmin", isAdmin);
+//                                Map<String, Object> user = new HashMap<>();
+//                                user.put("email", email);
+//                                user.put("password", password); // WARNING: Insecure
+//                                user.put("isAdmin", isAdmin);
+
+
 
                                 db.collection(USERS_COLLECTION)
                                         .add(user)
@@ -108,5 +120,22 @@ public class FirestoreService {
                         Log.w(TAG, "User not found for deletion.", task.getException());
                     }
                 });
+    }
+
+    public List<Recipe> getAllRecipes() {
+        List<Recipe> recipeList = new ArrayList<>();
+        db.collection("recipes")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Recipe recipe = document.toObject(Recipe.class);
+                            recipeList.add(recipe);
+                        }
+                    } else {
+                        Log.w(TAG, "Error getting recipes.", task.getException());
+                    }
+                });
+        return recipeList;
     }
 }
