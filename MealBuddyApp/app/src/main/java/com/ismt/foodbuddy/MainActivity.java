@@ -1,8 +1,11 @@
 package com.ismt.foodbuddy;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.ismt.foodbuddy.activity.RecipeListActivity;
 import com.ismt.foodbuddy.activity.RegistrationActivity;
 import com.ismt.foodbuddy.dao.DatabaseHelper;
+import com.ismt.learning.Notification;
+
+import java.util.List;
 
 /**
  * This is Android Activity class that is responsible for handling the login functionality.
@@ -30,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView createAccountLink;
     private CheckBox adminCheckbox;
+    private Button showNotificationButton;
 
     private DatabaseHelper databaseHelper;
 
@@ -70,6 +79,40 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                    // Get the checklist data
+
+                    List<String> checklistItems = List.of("dumbells", "mats"); // Assume this method retrieves the checklist items
+                    String checklistData = checklistItems.toString();
+
+                    // Add a polite header/footer
+                    String messageBody = "Hey! Here is the equipment checklist for the workout, can you please give" +
+                            "me a favour to purchase these items:\n\n" + checklistData;
+
+                    try {
+                        // 3. Create the Intent
+                        // ACTION_SENDTO ensures we target SMS/MMS apps specifically
+                        Intent smsIntent = new Intent(Intent.ACTION_SENDTO); //SMS/MMS
+
+                        // Set the data to 'smsto:' to filter for SMS apps only
+                        smsIntent.setData(Uri.parse("smsto:"));
+
+                        // Put the text message content (Key must be "sms_body")
+                        smsIntent.putExtra("sms_body", messageBody);
+
+                        // 4. Launch the Activity
+                        // This will open the user's default SMS app with the text pre-filled
+                        startActivity(smsIntent);
+
+                    } catch (Exception e) {
+                        // Handle error if no SMS app is found (rare on phones)
+                     //   Toast.makeText(this, "No SMS app found.", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+
+
+
+
                 String username = usernameInput.getText().toString().trim();
                 String password = passwordInput.getText().toString();
 

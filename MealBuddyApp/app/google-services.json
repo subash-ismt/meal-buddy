@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "132347616838",
+    "project_id": "meal-buddy-app-8feec",
+    "storage_bucket": "meal-buddy-app-8feec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132347616838:android:8336ca2c228d69d92cf447",
+        "android_client_info": {
+          "package_name": "com.ismt.foodbuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxLlMEi6pgALutd2hg9Q4Bw5ut_wkSWl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
