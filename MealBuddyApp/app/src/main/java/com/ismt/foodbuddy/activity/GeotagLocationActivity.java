@@ -24,8 +24,8 @@ public class GeotagLocationActivity extends AppCompatActivity {
         btnViewOnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Hardcoded location for a park (e.g., Central Park, NYC)
-                Uri location = Uri.parse("geo:27.664318965471278, 83.46606493779113?q=ISMT+Collega+Butwal,+Butwal,+Nepal");
+                // Hardcoded location for a park (e.g., ISMT College Butwal, Nepal)
+                Uri location = Uri.parse("geo:27.664318965471278, 83.46606493779113?q=ISMT+College+Butwal,+Butwal,+Nepal");
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
                 startActivity(mapIntent);
             }

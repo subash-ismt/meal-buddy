@@ -15,9 +15,15 @@ import com.ismt.foodbuddy.R;
 import com.ismt.foodbuddy.activity.GeotagLocationActivity;
 import com.ismt.foodbuddy.adapter.CheckItemsAdapter;
 import com.ismt.foodbuddy.model.CheckList;
+import com.ismt.foodbuddy.model.Workout;
+import com.ismt.foodbuddy.service.FitLifeApiService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShareToContact extends AppCompatActivity {
 
