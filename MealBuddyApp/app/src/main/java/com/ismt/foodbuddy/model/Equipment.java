@@ -5,6 +5,15 @@ public class Equipment {
     private String name;
     private long price;
     private String availableLocation;
+    private boolean isPurchased;
+
+    public boolean isPurchased() {
+        return isPurchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        isPurchased = purchased;
+    }
 
     public String getName() {
         return name;
