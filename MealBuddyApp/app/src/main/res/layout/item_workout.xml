@@ -10,27 +10,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:text="workout 1"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textViewDuration"
         android:layout_width="wrap_content"
+        android:text="20 mins"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textViewDifficulty"
         android:layout_width="wrap_content"
+        android:text="easy"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textViewMuscleGroup"
         android:layout_width="wrap_content"
+        android:text="whole body"
         android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/textViewEquipmentNeeded"
         android:layout_width="wrap_content"
+        android:text="dumbbells"
         android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="update" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+
+        android:textColor="#CF1E1E"
+        android:text="delete" />
+
 
 
 

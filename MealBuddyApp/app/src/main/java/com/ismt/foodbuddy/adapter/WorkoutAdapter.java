@@ -15,12 +15,15 @@ import java.util.List;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
 
+
+    //data model define
     private final List<Workout> workouts;
 
     public WorkoutAdapter(List<Workout> workouts) {
         this.workouts = workouts;
     }
 
+    //this method is used to set view of the each work item
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
