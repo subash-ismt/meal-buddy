@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+
+    <TextView
+        android:id="@+id/todoItemText"
+        android.layout_centerVertical="true"
+        android:layout_width="109dp"
+        android:layout_height="49dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="64dp"
+        android:text="To do Item 1">
+
+    </TextView>
+
+    <CheckBox
+        android:id="@+id/todoCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="137dp"
+        android:layout_toEndOf="@+id/todoItemText" />
+
+
+</RelativeLayout>
