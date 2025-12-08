@@ -44,9 +44,11 @@ public class ToDoActivity extends AppCompatActivity {
 
         // Shake Detector
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        // Initialize accelerometer sensor
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector();
         mShakeDetector.setOnShakeListener(count -> {
+            //reset the to-do list on shake
             toDoListAdaptor.resetToDos();
             Toast.makeText(ToDoActivity.this, "List Reset!", Toast.LENGTH_SHORT).show();
         });

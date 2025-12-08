@@ -46,6 +46,7 @@ public class ToDoListAdaptor extends RecyclerView.Adapter<ToDoListAdaptor.TodDoL
         String todoItem = todoItems.get(position);
         holder.todoName.setText(todoItem);
 
+        //this is to make the checkbox checked if the item is in completedItems set
         boolean isCompleted = completedItems.contains(todoItem);
         holder.todoCheckbox.setChecked(isCompleted);
 
