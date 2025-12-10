@@ -18,6 +18,8 @@ import java.util.Map;
 
 public class FirestoreService {
 
+
+    //object creation of Firestore
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String USERS_COLLECTION = "users";
     private static final String TAG = "FirestoreService";
@@ -45,6 +47,9 @@ public class FirestoreService {
                                     callback.onRegistrationFailure("Email already registered");
                                 }
                             } else {
+
+                                //if user is not preset then add user to the database
+
 //                                Map<String, Object> user = new HashMap<>();
 //                                user.put("email", email);
 //                                user.put("password", password); // WARNING: Insecure
@@ -76,7 +81,7 @@ public class FirestoreService {
 
     public void getUser(String email) {
         db.collection(USERS_COLLECTION)
-                .whereEqualTo("email", email)
+                .whereEqualTo("email", email) //condition to check if email exists
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {

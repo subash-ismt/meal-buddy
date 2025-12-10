@@ -24,12 +24,7 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name="com.ismt.learning.GestureActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity2"
-            android:exported="false" />
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
